@@ -5,7 +5,7 @@ import styles from '@/styles/Home.module.css'
 import Guest from '@/components/Home/Guest'
 import { useState } from 'react'
 import AuthorizedUser from '@/components/Home/AuthorizedUser'
-import { useSession, signIn, signOut } from 'next-auth/react'
+import { getSession, useSession, signOut } from 'next-auth/react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,4 +21,21 @@ export default function Home() {
 			{ session ? <AuthorizedUser /> : <Guest /> }
 		</>
 	)
+}
+
+export async function getServerSideProps ({ req }: any) {
+	const session = await getSession({ req })
+
+	if(!session) {
+		return {
+			redirect: {
+				destination: '/login',
+				permanent: false
+			}
+		}
+	}
+
+	return {
+		props: { session }
+	}
 }

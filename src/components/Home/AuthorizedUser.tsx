@@ -1,8 +1,12 @@
 import Link from 'next/link'
-import { useSession, signIn, signOut } from 'next-auth/react'
+import { useSession, signOut } from 'next-auth/react'
 
 const AuthorizedUser = () => {
 	const { data: session } = useSession();
+
+	const handleSignout = () => {
+		signOut();
+	}
 
 	return (
 		<main className="container mx-auto text-center py-20">
@@ -14,7 +18,7 @@ const AuthorizedUser = () => {
 			</div>
 
 			<div className="flex justify-center">
-				<button className='mt-5 px-10 py-1 rounded-sm bg-indigo-500 bg-gray-50'>Sign Out</button>
+				<button onClick={handleSignout} className='mt-5 px-10 py-1 rounded-sm bg-indigo-500 text-gray-50'>Sign Out</button>
 			</div>
 
             <div className="flex justify-center">
