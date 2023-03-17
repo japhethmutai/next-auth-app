@@ -1,6 +1,8 @@
 import Layout from '../layout/layout'
 import Head from 'next/head'
 import Link from 'next/link'
+import styles from '../styles/Form.module.css'
+import Image from 'next/image'
 
 const Login = () => {
     return (
@@ -16,15 +18,17 @@ const Login = () => {
 
 				{/* form */}
 				<form className='flex flex-col gap-5'>
-					<div className="input-group">
+					<div className={styles.input_group}>
 						<input
+							className={styles.input_text}
 							type='email'
 							name='email'
 							placeholder='Email'
 						/>
 					</div>
-					<div className="input-group">
+					<div className={styles.input_group}>
 						<input
+							className={styles.input_text}
 							type='password'
 							name='password'
 							placeholder='Password'
@@ -33,24 +37,24 @@ const Login = () => {
 
 					{/* login buttons */}
 					<div className="input-button">
-						<button type='submit'>
+						<button type='submit' className={styles.button}>
 							Login
 						</button>
 					</div>
 					<div className="input-button">
-						<button type='submit'>
-							Sign In with Google
+						<button type='button' className={styles.button_third_party}>
+							Sign In with Google <Image src={'/assets/google.svg'} width={20} height="20" alt="google sign in"></Image>
 						</button>
 					</div>
 					<div className="input-button">
-						<button type='submit'>
-							Sign In with GitHub
+						<button type='button' className={styles.button_third_party}>
+							Sign In with GitHub <Image src={'/assets/github.svg'} width={20} height="20" alt="github sign in"></Image>
 						</button>
 					</div>
 				</form>
 				{/* bottom */}
 				<p className="text-center text-gray-400">
-					Don't have an account yet? <Link href={'/register'}>Sign Up</Link>
+					Don't have an account yet? <Link href={'/register'} className='text-blue-700'>Sign Up</Link>
 				</p>
 			</section>
 		</Layout>
