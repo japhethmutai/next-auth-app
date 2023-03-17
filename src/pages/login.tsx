@@ -3,8 +3,12 @@ import Head from 'next/head'
 import Link from 'next/link'
 import styles from '../styles/Form.module.css'
 import Image from 'next/image'
+import { HiAtSymbol, HiFingerPrint } from "react-icons/hi";
+import { useState } from 'react'
 
 const Login = () => {
+	const [showPassword, setShowPassword] = useState(false)
+
     return (
         <Layout>
 			<Head>
@@ -25,14 +29,20 @@ const Login = () => {
 							name='email'
 							placeholder='Email'
 						/>
+						<span className='icon flex items-center px-4'>
+							<HiAtSymbol size={25} />
+						</span>
 					</div>
 					<div className={styles.input_group}>
 						<input
 							className={styles.input_text}
-							type='password'
+							type={`${showPassword ? 'text' : 'password'}`}
 							name='password'
 							placeholder='Password'
 						/>
+						<span className='icon flex items-center px-4' onClick={() => setShowPassword(!showPassword)}>
+							<HiFingerPrint size={25} />
+						</span>
 					</div>
 
 					{/* login buttons */}
