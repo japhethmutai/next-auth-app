@@ -6,6 +6,7 @@ import styles from '@/styles/Form.module.css'
 import { HiAtSymbol, HiFingerPrint, HiOutlineUser } from "react-icons/hi"
 import Link from "next/link"
 import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 interface formValues {
 	username: string;
@@ -17,6 +18,15 @@ interface formValues {
 const Register = () => {
 	const [showPassword, setShowPassword] = useState({ password: false, cpassword: false })
 
+	const SignupSchema = Yup.object().shape({
+		username: Yup.string().min(3, 'Username too short!').max(20, 'Username too long!').required('Username required'),
+		email: Yup.string().email('Invalid email').required('Email required'),
+		password: Yup.string().min(8, 'Password too short!').max(20, 'Password too long!').required('Password required'),
+		cpassword: Yup.string().test('passwords-match', 'Passwords must match', function(value){
+			return this.parent.password === value
+		})
+	})
+
 	const formik = useFormik<formValues>({
 		initialValues: {
 		  	username: '',
@@ -24,6 +34,7 @@ const Register = () => {
 			password: '',
 			cpassword: ''
 		},
+		validationSchema: SignupSchema,
 		onSubmit: values => {
 			alert(JSON.stringify(values, null, 2));
 		},
@@ -54,6 +65,7 @@ const Register = () => {
 							<HiOutlineUser size={25} />
 						</span>
 					</div>
+					{ formik.errors.username && formik.touched.username ? <span className='text-rose-500 text-xs text-left italic pl-4'>{formik.errors.username}</span> : <></> }
 					<div className={styles.input_group}>
 						<input
 							className={styles.input_text}
@@ -65,6 +77,7 @@ const Register = () => {
 							<HiAtSymbol size={25} />
 						</span>
 					</div>
+					{ formik.errors.email && formik.touched.email ? <span className='text-rose-500 text-xs text-left italic pl-4'>{formik.errors.email}</span> : <></> }
 					<div className={styles.input_group}>
 						<input
 							className={styles.input_text}
@@ -76,6 +89,7 @@ const Register = () => {
 							<HiFingerPrint size={25} />
 						</span>
 					</div>
+					{ formik.errors.password && formik.touched.password ? <span className='text-rose-500 text-xs text-left italic pl-4'>{formik.errors.password}</span> : <></> }
 					<div className={styles.input_group}>
 						<input
 							className={styles.input_text}
@@ -87,6 +101,7 @@ const Register = () => {
 							<HiFingerPrint size={25} />
 						</span>
 					</div>
+					{ formik.errors.cpassword && formik.touched.cpassword ? <span className='text-rose-500 text-xs text-left italic pl-4'>{formik.errors.cpassword}</span> : <></> }
 
 					{/* login buttons */}
 					<div className="input-button">
