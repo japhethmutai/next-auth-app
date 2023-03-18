@@ -8,6 +8,7 @@ import { HiAtSymbol, HiFingerPrint } from "react-icons/hi";
 import { signIn } from 'next-auth/react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useRouter } from 'next/router'
 
 interface formValues {
 	email: string;
@@ -16,6 +17,7 @@ interface formValues {
 
 const Login = () => {
 	const [showPassword, setShowPassword] = useState(false);
+	const router = useRouter();
 
 	const LoginSchema = Yup.object().shape({
 		email: Yup.string().email('Invalid email').required('Email required'),
@@ -28,8 +30,18 @@ const Login = () => {
 			password: ''
 		},
 		validationSchema: LoginSchema,
-		onSubmit: values => {
-			alert(JSON.stringify(values, null, 2));
+		onSubmit: async(values) => {
+			const status = await signIn('credentials', {
+				redirect: false,
+				email: values.email,
+				password: values.password,
+				callbackUrl: "/"
+			})
+
+			if (status && status?.ok) {
+				const url = status.url || '/'
+				router.push(url);
+			}
 		},
 	});
 
