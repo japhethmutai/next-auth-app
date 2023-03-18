@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { HiAtSymbol, HiFingerPrint } from "react-icons/hi";
 import { signIn } from 'next-auth/react';
 import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 interface formValues {
 	email: string;
@@ -16,11 +17,17 @@ interface formValues {
 const Login = () => {
 	const [showPassword, setShowPassword] = useState(false);
 
+	const LoginSchema = Yup.object().shape({
+		email: Yup.string().email('Invalid email').required('Email required'),
+		password: Yup.string().min(8, 'Password too short!').max(20, 'Password too long!').required('Password required')
+	})
+
 	const formik = useFormik<formValues>({
 		initialValues: {
 		  	email: '',
 			password: ''
 		},
+		validationSchema: LoginSchema,
 		onSubmit: values => {
 			alert(JSON.stringify(values, null, 2));
 		},
@@ -35,6 +42,8 @@ const Login = () => {
 	const handleGithubSignIn = () => {
 		signIn('github', { callbackUrl: "http://localhost:3000" })
 	}
+
+	console.log(formik.errors);
 
     return (
         <Layout>
@@ -60,6 +69,7 @@ const Login = () => {
 							<HiAtSymbol size={25} />
 						</span>
 					</div>
+					{ formik.errors.email && formik.touched.email ? <span className='text-rose-500 text-xs text-left italic pl-4'>{formik.errors.email}</span> : <></> }
 					<div className={styles.input_group}>
 						<input
 							className={styles.input_text}
@@ -71,6 +81,7 @@ const Login = () => {
 							<HiFingerPrint size={25} />
 						</span>
 					</div>
+					{ formik.errors.password && formik.touched.password ? <span className='text-rose-500 text-xs text-left italic pl-4'>{formik.errors.password}</span> : <></> }
 
 					{/* login buttons */}
 					<div className="input-button">
