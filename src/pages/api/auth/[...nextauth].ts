@@ -7,7 +7,7 @@ import connectMongo from "@/database/conn"
 import Users from "@/model/Schema"
 import { compare } from "bcryptjs"
 
-const { GOOGLE_CLIENT_ID = '', GOOGLE_CLIENT_SECRET = '', GITHUB_ID = '', GITHUB_SECRET = '' } = process.env;
+const { GOOGLE_CLIENT_ID = '', GOOGLE_CLIENT_SECRET = '', GITHUB_ID = '', GITHUB_SECRET = '', NEXTAUTH_SECRET = '' } = process.env;
 
 export default NextAuth({
 	providers: [
@@ -50,5 +50,6 @@ export default NextAuth({
 				return result;
 			}
 		})
-	]
+	],
+	secret: NEXTAUTH_SECRET
 })

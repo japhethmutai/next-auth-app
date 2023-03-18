@@ -7,6 +7,7 @@ import { HiAtSymbol, HiFingerPrint, HiOutlineUser } from "react-icons/hi"
 import Link from "next/link"
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useRouter } from "next/router"
 
 interface formValues {
 	username: string;
@@ -17,6 +18,7 @@ interface formValues {
 
 const Register = () => {
 	const [showPassword, setShowPassword] = useState({ password: false, cpassword: false })
+	const router = useRouter();
 
 	const SignupSchema = Yup.object().shape({
 		username: Yup.string().min(3, 'Username too short!').max(20, 'Username too long!').required('Username required'),
@@ -35,8 +37,19 @@ const Register = () => {
 			cpassword: ''
 		},
 		validationSchema: SignupSchema,
-		onSubmit: values => {
-			alert(JSON.stringify(values, null, 2));
+		onSubmit: async (values) => {
+			// alert(JSON.stringify(values, null, 2));
+			const options = {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(values, null, 2)
+			}
+
+			await fetch('http://localhost:3000/api/auth/signup', options)
+				.then(response => response.json())
+				.then((data) => {
+					if (data) router.push('/')
+				})
 		},
 	});
 
