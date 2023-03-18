@@ -58,7 +58,7 @@ const Login = () => {
 
 				{/* form */}
 				<form className='flex flex-col gap-5' onSubmit={formik.handleSubmit}>
-					<div className={styles.input_group}>
+					<div className={`${styles.input_group} ${formik.errors.email && formik.touched.email ? 'border-rose-600' : ''}`}>
 						<input
 							className={styles.input_text}
 							type='email'
@@ -70,7 +70,7 @@ const Login = () => {
 						</span>
 					</div>
 					{ formik.errors.email && formik.touched.email ? <span className='text-rose-500 text-xs text-left italic pl-4'>{formik.errors.email}</span> : <></> }
-					<div className={styles.input_group}>
+					<div className={`${styles.input_group} ${formik.errors.password && formik.touched.password ? 'border-rose-600' : ''}`}>
 						<input
 							className={styles.input_text}
 							type={`${showPassword ? 'text' : 'password'}`}

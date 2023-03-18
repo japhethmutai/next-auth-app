@@ -54,7 +54,7 @@ const Register = () => {
 
 				{/* form */}
 				<form className='flex flex-col gap-5' onSubmit={formik.handleSubmit}>
-					<div className={styles.input_group}>
+					<div className={`${styles.input_group} ${formik.errors.username && formik.touched.username ? 'border-rose-600' : ''}`}>
 						<input
 							className={styles.input_text}
 							type='text'
@@ -66,7 +66,7 @@ const Register = () => {
 						</span>
 					</div>
 					{ formik.errors.username && formik.touched.username ? <span className='text-rose-500 text-xs text-left italic pl-4'>{formik.errors.username}</span> : <></> }
-					<div className={styles.input_group}>
+					<div className={`${styles.input_group} ${formik.errors.email && formik.touched.email ? 'border-rose-600' : ''}`}>
 						<input
 							className={styles.input_text}
 							type='email'
@@ -78,7 +78,7 @@ const Register = () => {
 						</span>
 					</div>
 					{ formik.errors.email && formik.touched.email ? <span className='text-rose-500 text-xs text-left italic pl-4'>{formik.errors.email}</span> : <></> }
-					<div className={styles.input_group}>
+					<div className={`${styles.input_group} ${formik.errors.password && formik.touched.password ? 'border-rose-600' : ''}`}>
 						<input
 							className={styles.input_text}
 							type={`${showPassword.password ? 'text' : 'password'}`}
@@ -90,7 +90,7 @@ const Register = () => {
 						</span>
 					</div>
 					{ formik.errors.password && formik.touched.password ? <span className='text-rose-500 text-xs text-left italic pl-4'>{formik.errors.password}</span> : <></> }
-					<div className={styles.input_group}>
+					<div className={`${styles.input_group} ${formik.errors.cpassword && formik.touched.cpassword ? 'border-rose-600' : ''}`}>
 						<input
 							className={styles.input_text}
 							type={`${showPassword.cpassword ? 'text' : 'password'}`}
